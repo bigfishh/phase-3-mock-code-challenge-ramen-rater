@@ -5,15 +5,15 @@
       "name": "Shoyu Ramen",
       "restaurant": "Nonono",
       "image": "./assets/ramen/shoyu.jpg",
-      "rating": 7,
-      "comment": "Delish. Can't go wrong with a classic!"
+      "rating": "7",
+      "comment": "Delish. Can't go wrong with a classic"
     },
     {
       "id": 2,
       "name": "Naruto Ramen",
       "restaurant": "Naruto",
       "image": "./assets/ramen/naruto.jpg",
-      "rating": 10,
+      "rating": "9",
       "comment": "My absolute fave!"
     },
     {
@@ -22,7 +22,7 @@
       "restaurant": "Ippudo",
       "image": "./assets/ramen/nirvana.jpg",
       "rating": "7",
-      "comment": "Do buy the hype."
+      "comment": "Do buy the hype!!"
     },
     {
       "id": 4,
