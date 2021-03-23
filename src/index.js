@@ -11,6 +11,8 @@ const form = document.querySelector("form#ramen-rating")
     const formRating = form.querySelector("#rating")
     const formComment = form.querySelector("#comment")
 
+const newRamenForm = document.querySelector("form#new-ramen")
+
 let clickedOnRamenId
 
 // fetch all ramen
@@ -27,7 +29,15 @@ function renderRamenObj(ramenObj) {
     const img = document.createElement('img')
         img.src = ramenObj.image
         img.dataset.id = ramenObj.id
-    ramenDiv.append(img)
+    const button = document.createElement('button')
+        button.classList.add("delete")
+        button.textContent = `delete ${ramenObj.name}`
+    const oneDiv = document.createElement('div')
+    oneDiv.classList.add("ramen-div")
+    oneDiv.dataset.id = ramenObj.id
+    oneDiv.append(img, button)
+    
+    ramenDiv.append(oneDiv)
 }
 
 // display clicked on Ramen
@@ -45,10 +55,22 @@ function displayRamenDetails(clickedOnRamen) {
     })
 }
 
+function handleRamenDelete(ramenDiv) {
+    fetch(`${API}/${ramenDiv.dataset.id}`, {
+        method: "DELETE"
+    })
+    .then(resp => resp.json())
+    .then(emptyObj => {
+        ramenDiv.remove()
+    })
+}
+
 // handle ramen image click 
 ramenDiv.addEventListener("click", (e) => {
     if (e.target.matches("img")) {
         displayRamenDetails(e.target)
+    } else if (e.target.matches("button")) {
+        handleRamenDelete(e.target.closest('div.ramen-div'))
     }
 })
 
@@ -75,5 +97,31 @@ form.addEventListener("submit", (e) => {
         formRating.value = updatedRamen.rating
         formComment.value = updatedRamen.comment
     })
+})
 
+newRamenForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    let {name, restaurant, image, rating} = e.target
+    let newComment = e.target["new-comment"].value
+
+    fetch(API, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            accept: "application/json"
+        },
+        body: JSON.stringify({
+            name: name.value,
+            restaurant: restaurant.value,
+            image: image.value,
+            rating: rating.value,
+            comment: newComment
+        })
+    })
+    .then(resp => resp.json())
+    .then(newRamen => {
+        renderRamenObj(newRamen)
+        e.target.reset()
+    })
+    
 })
